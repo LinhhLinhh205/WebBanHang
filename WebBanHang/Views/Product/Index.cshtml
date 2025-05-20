@@ -1,5 +1,9 @@
-﻿@model List<Product>
+﻿@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common
+@model IPagedList<Product>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
 <partial name="ThongBao"/>
 <div class="row mb-4">
     <div class="col-md-6">
@@ -46,3 +50,26 @@
         }
     </tbody>
 </table>
+<nav aria-label="Page navigation" class="d-flex justify-content-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
+{
+    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
+    DisplayLinkToLastPage = PagedListDisplayMode.Never,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToIndividualPages = true,
+
+    UlElementClasses = new[] { "pagination" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" },
+
+    LinkToPreviousPageFormat = "&laquo;",
+    LinkToNextPageFormat = "&raquo;",
+    FunctionToDisplayEachPageNumber = pageNumber => pageNumber.ToString(),
+
+    ClassToApplyToFirstListItemInPager = "page-item",
+    ClassToApplyToLastListItemInPager = "page-item",
+    ContainerDivClasses = new[] { "mb-4" }
+})
+</nav>
+
