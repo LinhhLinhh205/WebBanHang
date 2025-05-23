@@ -1,10 +1,7 @@
-﻿@using X.PagedList
-@using X.PagedList.Mvc.Core
-@using X.PagedList.Web.Common
-@model IPagedList<Product>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
-<partial name="ThongBao"/>
+﻿@model List<Product>
+
+<partial name="ThongBao" />
+
 <div class="row mb-4">
     <div class="col-md-6">
         <h2>LIST PRODUCT</h2>
@@ -15,20 +12,19 @@
         </a>
     </div>
 </div>
-<div class="products">
-    <partial name="ProductPartial" />
+
+<div class="products-container">
+    <partial name="ProductPartial" model="Model" />
 </div>
-@section Scripts{ 
+
+
+@section Scripts {
     <script>
-        $(document).on("click", ".page-link", function (e) {
+        $(document).on("click", ".pagination a", function (e) {
             e.preventDefault();
-            let currentpage = $(this).data("page");
-            $.ajax({
-                url: "Product/Index",
-                data: { page: currentpage },
-                success: function (data) {
-                    $(".products").html(data);
-                }
+            var url = $(this).attr("href");
+            $.get(url, function (data) {
+                $(".products-container").html(data);
             });
         });
     </script>

@@ -127,7 +127,7 @@ namespace WebBanHang.Controllers
             var dsProduct = _db.Products.Include(x => x.Category).ToList();
             ViewBag.PageSum = Math.Ceiling((double)dsProduct.Count / pageSize);
             ViewBag.CurrentPage = curentPage;
-            if (Request.Headers["X-Requested-with"] == "XMHttpRequest")
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
             {
                 return PartialView("ProductPartial", dsProduct.Skip((curentPage - 1) * pageSize).Take(pageSize).ToList());
             }
