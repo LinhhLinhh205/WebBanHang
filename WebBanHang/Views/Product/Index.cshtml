@@ -15,61 +15,21 @@
         </a>
     </div>
 </div>
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Category</th>
-            <th>Image</th>
-            <th>Action </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var x in Model)
-        {
-            <tr>
-                <td>@x.Name</td>
-                <td>@x.Price</td>
-                <td>@x.Category.Name</td>
-                <td>
-                    @if (x.ImageUrl != null)
-                    {
-                        <img src="@x.ImageUrl" style="width:100px" />
-                    }
-                </td>
-                <td>
-                    <a asp-action="Update" asp-route-id="@x.Id" class="btn btn-success">
-                        <i class="bi bi-pencil-square"></i> 
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@x.Id" class="btn btn-danger">
-                        <i class="bi bi-trash-fill"></i> 
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-<nav aria-label="Page navigation" class="d-flex justify-content-center">
-    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }), new PagedListRenderOptions
-{
-    DisplayLinkToFirstPage = PagedListDisplayMode.Never,
-    DisplayLinkToLastPage = PagedListDisplayMode.Never,
-    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
-    DisplayLinkToNextPage = PagedListDisplayMode.Always,
-    DisplayLinkToIndividualPages = true,
-
-    UlElementClasses = new[] { "pagination" },
-    LiElementClasses = new[] { "page-item" },
-    PageClasses = new[] { "page-link" },
-
-    LinkToPreviousPageFormat = "&laquo;",
-    LinkToNextPageFormat = "&raquo;",
-    FunctionToDisplayEachPageNumber = pageNumber => pageNumber.ToString(),
-
-    ClassToApplyToFirstListItemInPager = "page-item",
-    ClassToApplyToLastListItemInPager = "page-item",
-    ContainerDivClasses = new[] { "mb-4" }
-})
-</nav>
-
+<div class="products">
+    <partial name="ProductPartial" />
+</div>
+@section Scripts{ 
+    <script>
+        $(document).on("click", ".page-link", function (e) {
+            e.preventDefault();
+            let currentpage = $(this).data("page");
+            $.ajax({
+                url: "Product/Index",
+                data: { page: currentpage },
+                success: function (data) {
+                    $(".products").html(data);
+                }
+            });
+        });
+    </script>
+}

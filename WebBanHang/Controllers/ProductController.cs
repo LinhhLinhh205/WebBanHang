@@ -120,12 +120,18 @@ namespace WebBanHang.Controllers
             });
             return View();
         }
-        public IActionResult Index(int? page)
+        public IActionResult Index(int page=1)
         {
-            int pageNumber = page ?? 1;
+            int curentPage = page;
             int pageSize = 5;
-            var dsProduct = _db.Products.Include(x => x.Category).ToPagedList(pageNumber, pageSize);
-            return View(dsProduct);
+            var dsProduct = _db.Products.Include(x => x.Category).ToList();
+            ViewBag.PageSum = Math.Ceiling((double)dsProduct.Count / pageSize);
+            ViewBag.CurrentPage = curentPage;
+            if (Request.Headers["X-Requested-with"] == "XMHttpRequest")
+            {
+                return PartialView("ProductPartial", dsProduct.Skip((curentPage - 1) * pageSize).Take(pageSize).ToList());
+            }
+            return View(dsProduct.Skip((curentPage-1)*pageSize).Take(pageSize).ToList());
         }
     }
 }
