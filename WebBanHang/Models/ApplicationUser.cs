@@ -9,6 +9,7 @@ namespace WebBanHang.Models
     public class ApplicationUser:IdentityUser
     {
         public string FullName { get; set; }
-        public DateTime Birthday { get; set; }
+        public DateTime BirthDay { get; set; }
+        public bool Sex { get; set; }
     }
 }
