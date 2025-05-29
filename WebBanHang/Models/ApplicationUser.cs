@@ -10,6 +10,5 @@ namespace WebBanHang.Models
     {
         public string FullName { get; set; }
         public DateTime BirthDay { get; set; }
-        public bool Sex { get; set; }
     }
 }

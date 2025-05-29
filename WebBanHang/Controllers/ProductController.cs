@@ -10,8 +10,10 @@ using System.Threading.Tasks;
 using WebBanHang.Models;
 using System.IO;
 using X.PagedList;
+using Microsoft.AspNetCore.Authorization;
 namespace WebBanHang.Controllers
 {
+    [Authorize(Roles = SD.Role_Admin)]
     public class ProductController : Controller
     {
         private ApplicationDbContext _db;
