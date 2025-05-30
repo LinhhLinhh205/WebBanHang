@@ -6,8 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using WebBanHang.Models;
 
-namespace WebBanHang.Controllers
+namespace WebBanHang.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     [Authorize(Roles = SD.Role_Admin)]
     public class CategoryController : Controller
     {
@@ -28,7 +29,7 @@ namespace WebBanHang.Controllers
         [HttpPost]
         public IActionResult Add(Category category)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _db.Categories.Add(category);
                 _db.SaveChanges();
@@ -49,7 +50,7 @@ namespace WebBanHang.Controllers
         [HttpPost]
         public IActionResult Update(Category category)
         {
-            if (ModelState.IsValid) 
+            if (ModelState.IsValid)
             {
                 _db.Categories.Update(category);
                 _db.SaveChanges();
@@ -75,7 +76,7 @@ namespace WebBanHang.Controllers
             {
                 return NotFound();
             }
-            if (_db.Products.Where(x=>x.CategoryId == id).ToList().Count > 0)
+            if (_db.Products.Where(x => x.CategoryId == id).ToList().Count > 0)
             {
                 TempData["error"] = "The loai khong the xoa!";
                 return RedirectToAction("Index");
@@ -86,4 +87,4 @@ namespace WebBanHang.Controllers
             return RedirectToAction("Index");
         }
     }
-}   
+}

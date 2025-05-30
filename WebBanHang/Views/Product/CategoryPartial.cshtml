@@ -1,0 +1,10 @@
+﻿@model List<Category>
+    <ul class="list-group">
+        @foreach (var c in Model)
+        {
+        <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+            
+            <a asp-action="Index" asp-route-catid="@c.Id" class="badge bg-primary rounded-pill">@c.Name</a>
+        </li>
+        }
+    </ul>
