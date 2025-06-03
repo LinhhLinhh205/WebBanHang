@@ -22,8 +22,17 @@ namespace WebBanHang.Areas.Customer.Controllers
                 Select(c=>new CategoryModel { Id=c.Id,Name=c.Name,TotalProduct=_db.Products.Where(p=>p.CategoryId==c.Id).Count()}).
                 ToList();
             var dsSanPham = _db.Products.Where(p => p.CategoryId == catid).ToList();
+            var catName = _db.Categories.Find(catid).Name;
             ViewBag.DSLOAI = dsLoai;
+            ViewBag.CATEGORY_NAME = catName;
             return View(dsSanPham);
+        }
+        public IActionResult LoadPartial(int catid = 1)
+        {
+            var dsSanPham = _db.Products.Where(p => p.CategoryId == catid).ToList();
+            var catName = _db.Categories.Find(catid).Name;
+            ViewBag.CATEGORY_NAME = catName;
+            return PartialView("ProductPartial", dsSanPham);
         }
     }
 }

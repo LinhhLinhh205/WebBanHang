@@ -2,36 +2,54 @@
 <div class="row">
     <div id="category-list" class="col-md-3">
         <ul class="list-group">
-            @foreach(var c in (List<CategoryModel>)ViewBag.DSLOAI)
+            @foreach (var c in (List<CategoryModel>)ViewBag.DSLOAI)
             {
-            <a asp-action="Index" asp-route-catid="@c.Id" class="list-group-item d-flex justify-content-between align-items-center">
-                Cras justo odio
-                <span class="badge bg-primary rounded-pill">@c.TotalProduct</span>
-            </a>  
+                <li class="list-group-item p-0">
+                    <a href="#" data-catid="@c.Id" class="catid-item d-flex justify-content-between align-items-center px-3 py-2 w-100 d-block text-decoration-none">
+                        @c.Name
+                        <span class="badge bg-primary rounded-pill">@c.TotalProduct</span>
+                    </a>
+                </li>
             }
         </ul>
+
     </div>
-    <div id="category-list" class="col-md-9">
-        <div class="row">
+    <div id="product-list" class="col-md-9">  
+        <h3 class="text-uppercase"> Product List Of @ViewBag.CATEGORY_NAME</h3>       
+            <div class="row">
             @foreach(var p in Model)
             {
                 <div class="card mb-3 col-md-4">
                     <h3 class="card-header">@p.Name</h3>
                     <div class="card-body">
-                        <h5 class="card-title">Price:@p.Price</h5>
+                        <h5 class="card-title">Price:@Html.FormatValue(@p.Price,"{0:#,##} USD")</h5>
                     </div>
                     @if (!string.IsNullOrEmpty(p.ImageUrl))
 
                     {
-                        <img scr="/@p.ImageUrl" class="img-fluid" />
+                        <img src="/@p.ImageUrl" class="img-fluid" />
                     }
-                <div class="card-footer text-muted">
-                    <a href="#" class="card-link btn btn-outline-dark">Detail</a>
-                    <a href="#" class="card-link btn btn-outline-info">Add To Cart</a>
-                </div>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="card-link btn btn-outline-dark">Detail</a>
+                        <a href="#" class="card-link btn btn-outline-info">Add To Cart</a>
+                    </div>    
                 </div>
             }
-        </div>
+            </div>                    
     </div>
-
 </div>
+@section Scripts{
+    <script>
+        $(".catid-item").click(function (evt){
+            evt.preventDefault();
+            let catid=$(this).data("catid");
+            $.ajax({
+                url:"/Customer/Product/LoadPartial",
+                data:{ catid: catid },
+                success:function(data){
+                    $("#product-list").html(data);
+                }
+            });
+        });
+    </script>
+}
