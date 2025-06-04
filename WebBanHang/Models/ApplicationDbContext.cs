@@ -14,6 +14,7 @@ namespace WebBanHang.Models
         {
 
         }
+
         public DbSet<Category> Categories { set; get; }
         public DbSet<Product> Products { set; get; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
