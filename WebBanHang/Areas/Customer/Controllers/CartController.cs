@@ -37,6 +37,23 @@ namespace WebBanHang.Areas.Customer.Controllers
                 }
                 cart.Add(product, 1);
                 HttpContext.Session.SetJson("CART", cart);
+                // return Json(new { msg="success", qty = cart.Quantity});
+                return RedirectToAction("Index");
+            }
+            return Json(new { msg = "error" });
+        }
+        public IActionResult AddToCartAPI(int productId)
+        {
+            var product = _db.Products.FirstOrDefault(x => x.Id == productId);
+            if (product != null)
+            {
+                Cart cart = HttpContext.Session.GetJson<Cart>("CART");
+                if (cart == null)
+                {
+                    cart = new Cart();
+                }
+                cart.Add(product, 1);
+                HttpContext.Session.SetJson("CART", cart);
                 return Json(new { msg = "Product added to cart", qty = cart.Quantity });
             }
             return Json(new { msg = "error" });
